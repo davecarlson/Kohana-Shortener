@@ -137,7 +137,7 @@ class Kohana_Shortener {
 
 		// If so, create a new code			
 		if ( $result->count() > 0):
-			$this->create_random_code();
+			return $this->create_random_code();
 		endif;
 
 		return $code;
