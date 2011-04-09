@@ -82,12 +82,12 @@ class Kohana_Shortener {
 			$result = DB::select("code")
 					->from($this->table_name)
 					->where("url", "=", $url)
-					->execute()
-					->as_array();
+					->execute();
 
 			// If url already exists, just return the existing code
-			if (sizeof($result) > 0):
-				$this->short_url = $this->base_url.$result[0]['code'];
+			if ($result->count() > 0):
+				$row = $result->current();
+				$this->short_url = $this->base_url.$row['code'];
 				return $this->short_url;
 			endif;
 
@@ -125,7 +125,7 @@ class Kohana_Shortener {
 		$code = "";
 		$character_set = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     	
-    	for ($i = 1; $i <= 6; $i++):
+		for ($i = 1; $i <= 6; $i++):
 			$code .= $character_set[rand(0, strlen($character_set) - 1)];
 		endfor;
 		
@@ -133,11 +133,10 @@ class Kohana_Shortener {
 		$result = DB::select("code")
 					->from($this->table_name)
 					->where("code", "=", $code)
-					->execute()
-					->as_array();
+					->execute();
 
 		// If so, create a new code			
-		if (sizeof($result) > 0):
+		if ( $result->count() > 0):
 			$this->create_random_code();
 		endif;
 
@@ -176,11 +175,11 @@ class Kohana_Shortener {
 			$result = DB::select("url")
 					->from($this->table_name)
 					->where("code", "=", $code)
-					->execute()
-					->current();
+					->execute();
 
-			if ( sizeof($result) > 0  ):
-				Request::current()->redirect($result['url']);
+			if ( $result->count() > 0  ):
+				$row = $result->current();
+				Request::current()->redirect( $row['url']) ;
 				exit;
 			else:
 				return false;
