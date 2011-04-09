@@ -2,5 +2,5 @@
 
 return array(
 	'table_name' => 'shortener',
-	'base_url' => 'http://www.yoursite.com/s/'
+	'base_url' => "http://".$_SERVER['SERVER_NAME']."/s/"
 );
