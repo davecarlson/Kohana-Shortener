@@ -61,7 +61,7 @@ class Kohana_Shortener {
 	public function render()
 	{
 
-		$view = View::factory("shortener/create");
+		$view = View::factory("Shortener/Create");
 		if ($this->status == "error"):
 			$view->bind("error", $this->status);
 		elseif ($this->short_url):
