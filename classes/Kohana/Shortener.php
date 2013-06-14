@@ -231,7 +231,11 @@ class Kohana_Shortener {
 		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
 		$data = curl_exec($ch);
 		curl_close($ch);
-
+		if ( stristr($data, "LIMIT_EXCEEDED") === true ):
+			sleep(2);
+			mail("technical@fastwebmedia.com", "Bit.ly limit reached", var_export($_SERVER));
+			return $this->bitly($url, $timeout);
+		endif;
 		return preg_replace('/[\s\n\r]+/', '', $data);
 
 	} // public function bitly
